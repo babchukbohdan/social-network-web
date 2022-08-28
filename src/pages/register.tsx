@@ -6,6 +6,8 @@ import { Wrapper } from '../components/Wrapper'
 import { useRegisterMutation } from '../generated/graphql'
 import { toErrorMap } from '../utils/toErrorMap'
 import { useRouter } from 'next/router'
+import { withUrqlClient } from 'next-urql'
+import { createUrqlClient } from '../utils/createUrqlClient'
 
 interface registerProps {
 
@@ -19,6 +21,7 @@ const Register: React.FC<registerProps> = () => {
         <Wrapper variant='small'>
             <Formik
                 initialValues={{
+                    email: '',
                     username: '',
                     password: '',
                 }}
@@ -37,7 +40,9 @@ const Register: React.FC<registerProps> = () => {
                     <Form>
                         <InputField label='Username' name="username" placeholder='username' />
                         <Box mt={4}>
-
+                            <InputField label='Email' name="email" placeholder='email' />
+                        </Box>
+                        <Box mt={4}>
                             <InputField label='Password' type="password" name="password" placeholder='password' />
                         </Box>
                         <Button type='submit' colorScheme="teal" mt={4} isLoading={isSubmitting}> register</Button>
@@ -47,4 +52,4 @@ const Register: React.FC<registerProps> = () => {
         </Wrapper>
     )
 }
-export default Register
+export default withUrqlClient(createUrqlClient)(Register)
